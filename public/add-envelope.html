@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Envelopes API</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/x-icon"ç href="favicon.ico">
+</head>
+<body>
+  <h1>Envelopes API</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="add-envelope.html">Add a New Envelope</a>
+  </nav>
+  <h2>Add a New Envelope</h2>
+  <p id="error-response-add"></p>
+  <p id="success-response-add"></p>
+  <div class="inputs">
+    <label for="add-envelope-title">title:</label>
+    <input id="add-envelope-title" value="">
+    <label for="add-envelope-budget">Budget:</label>
+    <input id="add-envelope-budget" value="">
+  </div>
+  <div>
+    <button id="submit-envelope" onclick="addEnvelope()">Submit Your envelope</button>
+  </div>
+  <script src="js/add-envelope.js"></script>
+</body>
+</html>

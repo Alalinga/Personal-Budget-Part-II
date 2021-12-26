@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Envelopes API</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <h1>Envelopes API</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="add-envelope.html">Add a New envelope</a>
+  </nav>
+  
+
+   <div id="all-envelopes">
+    <h2>all envelopes</h2>
+       <p id="not-found"></p>
+     <div class="table">
+         <div id="search-container">
+           <label for="search">Search envelope</label>
+           <input type="text" id="search-envelope-value" value="">
+           <button id="search-envelope" onclick="searchEvelope()" >Search</button>
+         </div>
+        <table id="envelopes-data">
+            
+            
+          </table>
+          <p id="no-envelopes" ></p>
+     </div>
+      
+     <div class="modal" id="updateModal">
+        <div class="modal-content">
+            <span class="close" id="close-update">&times;</span>
+            <div class="modal-body">
+             <input hidden id="envelope-id" type="text" value="">
+            <label for="title">title</label>
+            <input id="title" name="title" type="text" value="">
+            <br>
+            <label for="budget">budget</label>
+            <input id="budget" name="budget" type="text" value="">
+            <button id="update-envelope">update</button>
+            </div>
+          </div>
+     </div>
+
+     <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <span class="close" id="close-delete">&times;</span>
+            <div>
+
+            <p style="text-align: center;">Are you sure you want to delete this envelope</p>
+            <input hidden id="envelope-to-delete" type="text">
+            <button style="background-color: red;" id="yes-delete">Yes</button>
+            <button  id="no-delete">No</button>
+            </div>
+          </div>
+     </div>
+
+   </div>
+
+
+ <h3>Transfer Envelopes</h3>
+    <p id="success-response" style="background-color: seagreen;"></p>
+    <p id="error-response" style="background-color:red;"></p>
+
+    <div>
+        <label for="transfer-from">From</label>
+        
+        <input id="transfer-from" name="transfer-from" value="" list="envelopes-datalist">
+        <br><br>
+        <label for="transfer-to">To</label>
+        <input id="transfer-to" value="" name="transfer-to" list="envelopes-datalist">
+        <br>
+        <label for="transfer-amount">Amount</label>
+        <input type="text" id="transfer-amount"  value="">
+        <button id="transfer-envelope" onclick="tannsferEvelopes()">Transfer</button>
+        <datalist id="envelopes-datalist" name="envelopes">
+            
+        </datalist>
+      </div>
+
+
+  <script src="js/script.js"></script>
+</body>
+</html>
