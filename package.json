@@ -1,19 +1,30 @@
 {
   "name": "personal-budget-part-ii",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "pg": "^8.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alalinga/Personal-Budget-Part-II.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Alalinga/Personal-Budget-Part-II/issues"
+  },
+  "homepage": "https://github.com/Alalinga/Personal-Budget-Part-II#readme",
+  "description": ""
 }

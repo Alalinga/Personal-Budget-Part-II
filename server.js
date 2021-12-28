@@ -1,14 +1,23 @@
+import _ from './env.js'
 import express from 'express';
-import router from './routes/envelopes.js';
 import bodyParser from 'body-parser';
+import envelopes from './routes/envelopes.js';
+
+
+
 const app = express();
+console.log(process.env.PASSWORD)
 
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.static('public'));
+app.use(express.json())
 app.use(bodyParser.json());
-app.use('/api/envelopes', router);
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }));
+app.use('/api/envelopes', envelopes);
 
 
 app.listen(PORT, () => {
