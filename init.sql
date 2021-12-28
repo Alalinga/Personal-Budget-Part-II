@@ -4,4 +4,4 @@ CREATE TABLE envelopes(
   budget money
 );
 
-INSERT INTO envelopes(title,budget) VALUES('books',500)
+INSERT INTO envelopes(title,budget) VALUES('books',500);
