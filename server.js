@@ -6,7 +6,6 @@ import envelopes from './routes/envelopes.js';
 
 
 const app = express();
-console.log(process.env.PASSWORD)
 
 const PORT = process.env.PORT || 5000;
 

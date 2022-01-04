@@ -55,7 +55,6 @@ const searchEnvelope = (req, res) => {
         throw res.status(500).send(error)
     });
 }
-
 const transferEnvelope = async (req, res) => {
     const from = req.params.from;
     const to = req.params.to;
