@@ -1,5 +1,9 @@
 import Pool from 'pg-pool';
 
+let config = false;
+if(process.env.DATABASE_URL){
+    config=true
+}
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -7,7 +11,7 @@ const connectionString = process.env.DATABASE_URL || `postgresql://${process.env
 
 const pool = new Pool({
   connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-  //ssl: isProduction,
+  ssl: config,
 })
 
 // const pool = new Pool(
