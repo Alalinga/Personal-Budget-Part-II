@@ -1,18 +1,40 @@
 import Pool from 'pg-pool';
+import url from 'node:url'
 
-let config = false;
+let checkSsl = false;
 if(process.env.DATABASE_URL){
-    config=true
+  checkSsl=true
 }
-
-const isProduction = process.env.NODE_ENV === 'production'
 
 const connectionString = process.env.DATABASE_URL || `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 
-const pool = new Pool({
+const params = url.parse(connectionString);
+const auth = params.auth.split(':');
+
+const config = {
+  user: auth[0],
+  password: auth[1],
+  host: params.hostname,
+  port: params.port,
+  database: params.pathname.split('/')[1],
+  ssl: checkSsl
+};
+
+//const isProduction = process.env.NODE_ENV === 'production'
+
+
+const pool = new Pool(config)
+
+
+/*{
   connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
   ssl: config,
-})
+}
+*/
+
+
+
+
 
 // const pool = new Pool(
 //     {
