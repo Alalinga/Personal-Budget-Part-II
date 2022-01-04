@@ -13,7 +13,7 @@ const config = {
   host: params.hostname,
   port: params.port,
   database: params.pathname.split('/')[1],
-  ssl: false
+  ssl: true
 };
 
 //const isProduction = process.env.NODE_ENV === 'production'
