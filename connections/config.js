@@ -1,11 +1,12 @@
 import Pool from 'pg-pool';
-import url from 'node:url'
+import url from 'url'
 
 
 const connectionString = process.env.DATABASE_URL || `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 
 const params = url.parse(connectionString);
 const auth = params.auth.split(':');
+console.log(params,auth)
 
 const config = {
   user: auth[0],
