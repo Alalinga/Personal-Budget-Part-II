@@ -7,7 +7,6 @@ const connectionString = process.env.DATABASE_URL || `postgresql://${process.env
 const params = url.parse(connectionString);
 const auth = params.auth.split(':');
 
-
 const config = {
   user: auth[0],
   password: auth[1],
@@ -16,8 +15,6 @@ const config = {
   database: params.pathname.split('/')[1],
   ssl:{ rejectUnauthorized: false}
 };
-
-//const isProduction = process.env.NODE_ENV === 'production'
 
 
 const pool = new Pool(config)

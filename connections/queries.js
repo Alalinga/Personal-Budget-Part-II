@@ -49,8 +49,11 @@ const deleteEnvelope = (req, res) => {
 const searchEnvelope = (req, res) => {
     const id = req.params.title;
     pool.query('SELECT * FROM envelopes  WHERE title=$1', [id], (error, results) => {
-        if (!error) {
+        if (results.rowCount>0) {
             return res.status(200).json({ data: results.rows });
+        }
+        if(results.rowCount===0){
+            return res.status(404).send(`No Envelope found with title ${id}`)
         }
         throw res.status(500).send(error)
     });
@@ -59,6 +62,7 @@ const transferEnvelope = async (req, res) => {
     const from = req.params.from;
     const to = req.params.to;
     const budget = req.body.budget;
+   
 
     const fromBudget = await pool.query('SELECT budget ::money::numeric::float8 FROM envelopes WHERE id=$1', [from])
 
@@ -72,7 +76,7 @@ const transferEnvelope = async (req, res) => {
              const updateToBudget = await pool.query('UPDATE envelopes SET budget=$1 WHERE id=$2',[tb,to]);
              const updateFromBudget = await pool.query('UPDATE envelopes SET budget=$1 WHERE id=$2',[fb,from]);
               if(updateToBudget.rowCount>0 && updateFromBudget.rowCount>0){
-                  res.send(` Envelope tansfered successfully`)
+                  res.status(200).send(` Envelope tansfered successfully`)
               }else{
                 res.status(500).send('Could not  update ')
               }

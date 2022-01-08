@@ -9,84 +9,247 @@ const findData = (data, parameter) => {
   return data.find(singleData => singleData.id === parseInt(parameter))
 }
 
+/**
+*@swagger
+*components:
+*   parameters:
+*       toParams:
+*        - in: path
+*          name: to
+*          required: true
+*          schema:
+*             type: integer
+*          description: Id of envelope to transfer to  
+*       fromParams:
+*        - in: path
+*          name: from
+*          required: true
+*          schema:
+*             type: integer
+*          description: Id of envelope to transfer from   
+*   schemas:
+*     Envelopes:
+*      type: object
+*      required:
+*        - title
+*        - budget
+*      properties:
+*        id:
+*          type: number
+*          description: auto generated number for each envelope
+*        title:
+*          type: string
+*          description: The title of each envelope
+*        budget:
+*          type: money
+*          description: money alocated for each envelope
+*      
+*      example:
+*       id: 1
+*       title: food
+*       budget: $500    
+*/      
+
+/**
+ * @swagger
+ * tags:
+ *   name: Envelopes
+ *   description: The Envelopes Managing API
+ */
+
+
+/**
+ * @swagger
+ * /api/envelopes:
+ *   get:
+ *     summary: returns the list of all envelopes
+ *     tags: [Envelopes]
+ *     responses:
+ *       200:
+ *         description: the request is successfull
+ *         content:
+ *           application/json:
+ *              schema:
+ *                 type: array
+ *                 items:
+ *                    $ref: '#/components/schemas/Envelopes'
+ *        
+ */
+
 router.get('/', getAllEnvelopes);
-router.post('/', addEnvelope);
-router.post('/transfer/:from/:to',transferEnvelope);
-router.delete('/:id',deleteEnvelope);
+
+/**
+ * @swagger
+ * /api/envelopes/{title}:
+ *     get:
+ *       summary: Gets envelopes by title
+ *       tags: [Envelopes]
+ *       parameters:
+ *           - name: title
+ *             in: path
+ *             description: the Envelope title
+ *             required: true
+ *             schema:
+ *                type: string
+ *                  
+ *       responses:
+ *          200:
+ *             description: succesfully fetched envelope by title
+ *             content:
+ *                application/json:
+ *                     schema:
+ *                       $ref: '#components/schemas/Envelopes'       
+ *          404:
+ *            description: Envelope with that TITLE not found
+ *          500:
+ *            description: There was a server error
+ */
+
 router.get('/:title',searchEnvelope);
+
+
+/**
+ * @swagger
+ * /api/envelopes/:
+ *     post:
+ *       summary: add envelope into the database
+ *       tags: [Envelopes]
+ *       requestBody:
+ *             required: true
+ *             content:
+ *                application/json:
+ *                      schema:
+ *                         $ref: '#components/schemas/Envelopes'
+ *                  
+ *       responses:
+ *          200:
+ *             description: succesfully added envelope to the database
+ *             content:
+ *                application/json:
+ *                     schema:
+ *                       $ref: '#components/schemas/Envelopes'       
+ *          503:
+ *            description: Envelope could not be added to the database
+ *          500:
+ *            description: There was a server error
+ */
+router.post('/', addEnvelope);
+
+/**
+ * @swagger
+ * /api/envelopes/transfer/{from}/{to}:
+ *     post:
+ *       summary: transfer from one envelope into another
+ *       tags: [Envelopes]
+ *       requestBody:
+ *             required: true
+ *             content:
+ *                application/json:
+ *                      schema:
+ *                         type: object
+ *                         required:
+ *                           - budget
+ *                         name: budget
+ *                         description: The amount to be transfered
+ *                         properties:
+ *                            budget:
+ *                              type: number
+ *                              description: The amount to transfer
+ *       parameters:
+ *           - in: path
+ *             name: from
+ *             required: true
+ *             description: Id of envelope to transfer from
+ *             schema:
+ *                 type: integer
+ * 
+ *           - in: path
+ *             name: to
+ *             required: true
+ *             description: Id of envelope to transfer to
+ *             schema:
+ *                type: integer
+ *                 
+ *       responses:
+ *          200:
+ *             description: succesfully added envelope to the database
+ *             content:
+ *                application/json:
+ *                     schema:
+ *                       $ref: '#components/schemas/Envelopes'       
+ *          503:
+ *            description: Envelope could not be added to the database
+ *          500:
+ *            description: There was a server error
+ */
+
+router.post('/transfer/:from/:to',transferEnvelope);
+
+/**
+ * @swagger
+ * /api/envelopes/{id}:
+ *     delete:
+ *       summary: Delete envelope by id
+ *       tags: [Envelopes]
+ *       parameters:
+ *           - name: id
+ *             in: path
+ *             description: the Envelope id
+ *             required: true
+ *             schema:
+ *                type: integer
+ *                  
+ *       responses:
+ *          200:
+ *             description: succesfully deleted envelope by id
+ *             content:
+ *                application/json:
+ *                     schema:
+ *                       $ref: '#components/schemas/Envelopes'       
+ *          404:
+ *            description: Envelope with that Id not found
+ *          500:
+ *            description: There was a server error
+ */
+
+
+router.delete('/:id',deleteEnvelope);
+
+/**
+ * @swagger
+ * /api/envelopes/{id}:
+ *     put:
+ *       summary: update envelope 
+ *       tags: [Envelopes]
+ *       requestBody:
+ *             required: true
+ *             content:
+ *                application/json:
+ *                      schema:
+ *                         $ref: '#components/schemas/Envelopes'
+ *       parameters:
+ *           - name: id
+ *             in: path
+ *             description: the Envelope id
+ *             required: true
+ *             schema:
+ *                type: number
+ *                  
+ *       responses:
+ *          200:
+ *             description: succesfully updated envelope
+ *             content:
+ *                application/json:
+ *                     schema:
+ *                       $ref: '#components/schemas/Envelopes'       
+ *          404:
+ *            description: Envelope not found
+ *          500:
+ *            description: There was a server error
+ */
 router.put('/:id',updateEnvelope)
 
-// router.get('/:id', (req, res, next) => {
-//   const data = envelopes.find(envelope => envelope.title === req.params.id)
-
-//   if (data) return res.send({ data: [data] });
-//   res.status(404).send(`No data was found for search value ${req.params.id}`)
-// });
 
 
-// router.delete('/:id', (req, res, next) => {
-
-//   const data = findData(envelopes, req.params.id);
-//   if (!data) {
-//     return res.status(404).send(`Index number ${req.params.id} does not exist`);
-
-//   }
-//   envelopes.splice(envelopes.indexOf(data), 1)
-//   res.send(data);
-// });
-
-// router.put('/:id', (req, res, next) => {
-//   const data = findData(envelopes, req.params.id);
-//   if (!data) {
-//     return res.status(404).send(`Index number ${req.params.id} does not exist`);
-//   }
-
-//   if (validator(req.body).error) {
-//     return res.status(500).send(validator(req.body).error)
-
-//   }
-//   data.title = req.body.title;
-//   data.budget = req.body.budget;
-//   res.status(200).send(data)
-
-// });
-
-
-
-// router.post('/transfer/:from/:to', (req, res, next) => {
-
-//   if (req.params.from === req.params.to) {
-//     return res.status(500).send("Sorry you cant tansfer the same budget");
-//   }
-//   const dataFrom = findData(envelopes, req.params.from);
-//   const dataTo = findData(envelopes, req.params.to);
-//   if (!dataFrom) {
-//     return res.status(404).send(`Index number ${req.params.from} does not exist`);
-//   }
-//   if (!dataTo) {
-//     return res.status(404).send(`Index number ${req.params.to} does not exist`);
-//   }
-
-//   if (dataFrom.budget < parseInt(req.body.budget)) {
-//     return res.send(`The budget is less the amount you request to transfer`)
-//   }
-
-//   dataTo.budget += req.body.budget;
-//   dataFrom.budget -= req.body.budget
-
-//   res.status(200).send(JSON.stringify(dataTo) + JSON.stringify(dataFrom))
-// });
-
-
-const validator = data => {
-
-  if (typeof data.budget !== 'number' || data.budget === null) {
-    return { error: 'budget is required and must be a number' }
-  }
-  if (typeof data.title !== 'string' || data.title === null) {
-    return { error: 'title is required and must be a string' }
-  }
-  return { success: true }
-}
 
 export default router;
