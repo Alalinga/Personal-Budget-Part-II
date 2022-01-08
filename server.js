@@ -21,7 +21,7 @@ const option = {
     },
     servers:[
       {url:"http://localhost:5000"},
-      {url:"https://alalinga.heroku.com"}
+      {url:"https://alalinga.herokuapp.com"}
     ]
     
   },
